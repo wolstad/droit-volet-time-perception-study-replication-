@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The emotional body & time perception: A replication and redesign of Sylvie Droit-Volet (2015)</title>
+    <script src="jsPsych-master/jspsych.js"></script>
+    <script src="jsPsych-master/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jsPsych-master/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jsPsych-master/plugins/jspsych-image-keyboard-response.js"></script>
+    <link href="jsPsych-master/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+  </head>
+  <body></body>
+  <script>
+    /* create timeline */
+    var timeline = [];
+
+    /* define welcome message trial */
+    var welcome = {
+      type: "html-keyboard-response",
+      stimulus: "Welcome to the experiment. Press any key to begin."
+    };
+    timeline.push(welcome);
+
+    /* display instructions */
+    var instructions = {
+      type: "html-keyboard-response",
+      stimulus: "<p>In this experiment, we will have instructions, but those aren't done yet." +
+      "<p>Press any key to begin.</p>"
+    };
+    timeline.push(instructions);
+
+    /* stimuli */
+    var orig_stimuli = [
+      { stimulus: "img/orig/F04FE.bmp"},
+      { stimulus: "img/orig/F04SA.bmp"},
+      { stimulus: "img/orig/F05FE.bmp"},
+      { stimulus: "img/orig/F05SA.bmp"},
+      { stimulus: "img/orig/F06FE.bmp"},
+      { stimulus: "img/orig/F08SA.bmp"},
+      { stimulus: "img/orig/F10FE.bmp"},
+      { stimulus: "img/orig/F11FE.bmp"},
+      { stimulus: "img/orig/F13FE.bmp"},
+      { stimulus: "img/orig/F14SA.bmp"},
+      { stimulus: "img/orig/F21FE.bmp"},
+      { stimulus: "img/orig/F26SA.bmp"},
+      { stimulus: "img/orig/F27SA.bmp"},
+      { stimulus: "img/orig/F28FE2.bmp"},
+      { stimulus: "img/orig/F28SA.bmp"},
+      { stimulus: "img/orig/F30FE2.bmp"},
+      { stimulus: "img/orig/F30FE3.bmp"},
+      { stimulus: "img/orig/F30SA2.bmp"},
+      { stimulus: "img/orig/F32SA2.bmp"},
+      { stimulus: "img/orig/F33SA.bmp"}
+    ];
+
+    var blob_stimuli = [
+      { stimulus: "img/blob/F04FE-120.png"},
+      { stimulus: "img/blob/F04SA-120.png"},
+      { stimulus: "img/blob/F05FE-120.png"},
+      { stimulus: "img/blob/F05SA-120.png"},
+      { stimulus: "img/blob/F06FE-120.png"},
+      { stimulus: "img/blob/F08SA-120.png"},
+      { stimulus: "img/blob/F10FE-120.png"},
+      { stimulus: "img/blob/F11FE-120.png"},
+      { stimulus: "img/blob/F13FE-120.png"},
+      { stimulus: "img/blob/F14SA-120.png"},
+      { stimulus: "img/blob/F21FE-120.png"},
+      { stimulus: "img/blob/F26SA-120.png"},
+      { stimulus: "img/blob/F27SA-120.png"},
+      { stimulus: "img/blob/F28FE2-120.png"},
+      { stimulus: "img/blob/F28SA-120.png"},
+      { stimulus: "img/blob/F30FE2-120.png"},
+      { stimulus: "img/blob/F30FE3-120.png"},
+      { stimulus: "img/blob/F30SA2-120.png"},
+      { stimulus: "img/blob/F32SA2-120.png"},
+      { stimulus: "img/blob/F33SA-120.png"}
+    ];
+
+    /* start the experiment */
+    jsPsych.init({
+      timeline: timeline
+    });
+  </script>
+</html>

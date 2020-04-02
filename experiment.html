@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Need Ambiguous Name</title>
+    <title>Experiment</title>
     <script src="jsPsych-master/jspsych.js"></script>
     <script src="jsPsych-master/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jsPsych-master/plugins/jspsych-html-keyboard-response.js"></script>
@@ -12,47 +12,51 @@
   <script>
 
   // QUESTIONS FOR JOSH
-  // - Random number in interval for inter-trial
-  // - Sample with replacement vs without? Am I guaranteed a certain num? Not sure for tetsing
-  // - Switching between conditions easily
-  // - HTML image sizing attributes
+  // - test trial duration
   // - How the heck can we rip and organize this data?
   // - What to do at end of experiment?
-  // - Recording time it takes to respond?
-  // - Title
 
   // STIMULI DEFINITIONS
 
   var testing_stimuli = [
-    { stimulus: 'img/neutral.png'},
-    { stimulus: 'img/neutral.png'},
-    { stimulus: 'img/neutral.png'},
-    { stimulus: 'img/neutral.png'},
-    { stimulus: 'img/neutral.png'},
-    { stimulus: 'img/neutral.png'}
-  ];
+     { stimulus: 'img/neutral.png'},
+     { stimulus: 'img/neutral.png'},
+     { stimulus: 'img/neutral.png'},
+     { stimulus: 'img/neutral.png'},
+     { stimulus: 'img/neutral.png'},
+     { stimulus: 'img/neutral.png'}
+   ];
+
+  // var testing_stimuli = [
+  //   { stimulus: 'img/neutral.png', duration: 400},
+  //   { stimulus: 'img/neutral.png', duration: 400},
+  //   { stimulus: 'img/neutral.png', duration: 400},
+  //   { stimulus: 'img/neutral.png', duration: 1600},
+  //   { stimulus: 'img/neutral.png', duration: 1600},
+  //   { stimulus: 'img/neutral.png', duration: 1600}
+  // ];
 
   var orig_stimuli = [
-    { stimulus: "img/orig/F04FE.bmp"},
-    { stimulus: "img/orig/F04SA.bmp"},
-    { stimulus: "img/orig/F05FE.bmp"},
-    { stimulus: "img/orig/F05SA.bmp"},
-    { stimulus: "img/orig/F06FE.bmp"},
-    { stimulus: "img/orig/F08SA.bmp"},
-    { stimulus: "img/orig/F10FE.bmp"},
-    { stimulus: "img/orig/F11FE.bmp"},
-    { stimulus: "img/orig/F13FE.bmp"},
-    { stimulus: "img/orig/F14SA.bmp"},
-    { stimulus: "img/orig/F21FE.bmp"},
-    { stimulus: "img/orig/F26SA.bmp"},
-    { stimulus: "img/orig/F27SA.bmp"},
-    { stimulus: "img/orig/F28FE2.bmp"},
-    { stimulus: "img/orig/F28SA.bmp"},
-    { stimulus: "img/orig/F30FE2.bmp"},
-    { stimulus: "img/orig/F30FE3.bmp"},
-    { stimulus: "img/orig/F30SA2.bmp"},
-    { stimulus: "img/orig/F32SA2.bmp"},
-    { stimulus: "img/orig/F33SA.bmp"}
+    { stimulus: "img/orig/F04FE.jpg"},
+    { stimulus: "img/orig/F04SA.jpg"},
+    { stimulus: "img/orig/F05FE.jpg"},
+    { stimulus: "img/orig/F05SA.jpg"},
+    { stimulus: "img/orig/F06FE.jpg"},
+    { stimulus: "img/orig/F08SA.jpg"},
+    { stimulus: "img/orig/F10FE.jpg"},
+    { stimulus: "img/orig/F11FE.jpg"},
+    { stimulus: "img/orig/F13FE.jpg"},
+    { stimulus: "img/orig/F14SA.jpg"},
+    { stimulus: "img/orig/F21FE.jpg"},
+    { stimulus: "img/orig/F26SA.jpg"},
+    { stimulus: "img/orig/F27SA.jpg"},
+    { stimulus: "img/orig/F28FE2.jpg"},
+    { stimulus: "img/orig/F28SA.jpg"},
+    { stimulus: "img/orig/F30FE2.jpg"},
+    { stimulus: "img/orig/F30FE3.jpg"},
+    { stimulus: "img/orig/F30SA2.jpg"},
+    { stimulus: "img/orig/F32SA2.jpg"},
+    { stimulus: "img/orig/F33SA.jpg"}
   ];
 
   var blob_stimuli = [
@@ -80,6 +84,8 @@
 
     // TIMELINE DEFINITIONS
     var timeline = [];
+
+    var condition_choice = Math.round(Math.random());
 
     // INSTRUCTIONS
 
@@ -161,7 +167,9 @@
       type: 'html-keyboard-response',
       stimulus: "<p> </p>",
       choices: jsPsych.NO_KEYS,
-      trial_duration: 400 // need to change this
+      trial_duration: function() {
+        return 500 + Math.floor(Math.random() * Math.floor(500)); // interval between 500-1000ms
+      }
     };
 
     //Global ready screen
@@ -176,9 +184,8 @@
       type: "image-keyboard-response",
       stimulus: jsPsych.timelineVariable('stimulus'),
       choices: jsPsych.NO_KEYS,
-      trial_duration: function() {
-        return jsPsych.randomization.sampleWithoutReplacement([400, 400, 400, 1600, 1600, 1600], 1)[0];
-      }
+      trial_duration: 400
+      // randomize_order: true
     };
 
     var training_eval = {
@@ -238,7 +245,8 @@
 
     var testing_procedure = {
       timeline: [pause, ready, testing_test, testing_eval],
-      timeline_variables: blob_stimuli
+      timeline_variables: ((condition_choice == 0) ? blob_stimuli : orig_stimuli),
+      randomize_order: true
     };
 
     timeline.push(testing_procedure);

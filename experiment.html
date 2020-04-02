@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>The emotional body & time perception: A replication and redesign of Sylvie Droit-Volet (2015)</title>
+    <title>Need Ambiguous Name</title>
     <script src="jsPsych-master/jspsych.js"></script>
     <script src="jsPsych-master/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jsPsych-master/plugins/jspsych-html-keyboard-response.js"></script>
@@ -10,70 +10,238 @@
   </head>
   <body></body>
   <script>
-    /* create timeline */
+
+  // QUESTIONS FOR JOSH
+  // - Random number in interval for inter-trial
+  // - Sample with replacement vs without? Am I guaranteed a certain num? Not sure for tetsing
+  // - Switching between conditions easily
+  // - HTML image sizing attributes
+  // - How the heck can we rip and organize this data?
+  // - What to do at end of experiment?
+  // - Recording time it takes to respond?
+  // - Title
+
+  // STIMULI DEFINITIONS
+
+  var testing_stimuli = [
+    { stimulus: 'img/neutral.png'},
+    { stimulus: 'img/neutral.png'},
+    { stimulus: 'img/neutral.png'},
+    { stimulus: 'img/neutral.png'},
+    { stimulus: 'img/neutral.png'},
+    { stimulus: 'img/neutral.png'}
+  ];
+
+  var orig_stimuli = [
+    { stimulus: "img/orig/F04FE.bmp"},
+    { stimulus: "img/orig/F04SA.bmp"},
+    { stimulus: "img/orig/F05FE.bmp"},
+    { stimulus: "img/orig/F05SA.bmp"},
+    { stimulus: "img/orig/F06FE.bmp"},
+    { stimulus: "img/orig/F08SA.bmp"},
+    { stimulus: "img/orig/F10FE.bmp"},
+    { stimulus: "img/orig/F11FE.bmp"},
+    { stimulus: "img/orig/F13FE.bmp"},
+    { stimulus: "img/orig/F14SA.bmp"},
+    { stimulus: "img/orig/F21FE.bmp"},
+    { stimulus: "img/orig/F26SA.bmp"},
+    { stimulus: "img/orig/F27SA.bmp"},
+    { stimulus: "img/orig/F28FE2.bmp"},
+    { stimulus: "img/orig/F28SA.bmp"},
+    { stimulus: "img/orig/F30FE2.bmp"},
+    { stimulus: "img/orig/F30FE3.bmp"},
+    { stimulus: "img/orig/F30SA2.bmp"},
+    { stimulus: "img/orig/F32SA2.bmp"},
+    { stimulus: "img/orig/F33SA.bmp"}
+  ];
+
+  var blob_stimuli = [
+    { stimulus: "img/blob/F04FE-120.png"},
+    { stimulus: "img/blob/F04SA-120.png"},
+    { stimulus: "img/blob/F05FE-120.png"},
+    { stimulus: "img/blob/F05SA-120.png"},
+    { stimulus: "img/blob/F06FE-120.png"},
+    { stimulus: "img/blob/F08SA-120.png"},
+    { stimulus: "img/blob/F10FE-120.png"},
+    { stimulus: "img/blob/F11FE-120.png"},
+    { stimulus: "img/blob/F13FE-120.png"},
+    { stimulus: "img/blob/F14SA-120.png"},
+    { stimulus: "img/blob/F21FE-120.png"},
+    { stimulus: "img/blob/F26SA-120.png"},
+    { stimulus: "img/blob/F27SA-120.png"},
+    { stimulus: "img/blob/F28FE2-120.png"},
+    { stimulus: "img/blob/F28SA-120.png"},
+    { stimulus: "img/blob/F30FE2-120.png"},
+    { stimulus: "img/blob/F30FE3-120.png"},
+    { stimulus: "img/blob/F30SA2-120.png"},
+    { stimulus: "img/blob/F32SA2-120.png"},
+    { stimulus: "img/blob/F33SA-120.png"}
+  ];
+
+    // TIMELINE DEFINITIONS
     var timeline = [];
 
-    /* define welcome message trial */
+    // INSTRUCTIONS
+
+    // Welcome Message
     var welcome = {
       type: "html-keyboard-response",
-      stimulus: "Welcome to the experiment. Press any key to begin."
+      stimulus: "Welcome to the experiment.",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
     };
     timeline.push(welcome);
 
-    /* display instructions */
-    var instructions = {
+    // Initial Instructions
+    var instructions_1 = {
       type: "html-keyboard-response",
-      stimulus: "<p>In this experiment, we will have instructions, but those aren't done yet." +
-      "<p>Press any key to begin.</p>"
+      stimulus: "<p>In this experiment, you will see images and be asked to respond to stuff.",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
     };
-    timeline.push(instructions);
+    timeline.push(instructions_1);
 
-    /* stimuli */
-    var orig_stimuli = [
-      { stimulus: "img/orig/F04FE.bmp"},
-      { stimulus: "img/orig/F04SA.bmp"},
-      { stimulus: "img/orig/F05FE.bmp"},
-      { stimulus: "img/orig/F05SA.bmp"},
-      { stimulus: "img/orig/F06FE.bmp"},
-      { stimulus: "img/orig/F08SA.bmp"},
-      { stimulus: "img/orig/F10FE.bmp"},
-      { stimulus: "img/orig/F11FE.bmp"},
-      { stimulus: "img/orig/F13FE.bmp"},
-      { stimulus: "img/orig/F14SA.bmp"},
-      { stimulus: "img/orig/F21FE.bmp"},
-      { stimulus: "img/orig/F26SA.bmp"},
-      { stimulus: "img/orig/F27SA.bmp"},
-      { stimulus: "img/orig/F28FE2.bmp"},
-      { stimulus: "img/orig/F28SA.bmp"},
-      { stimulus: "img/orig/F30FE2.bmp"},
-      { stimulus: "img/orig/F30FE3.bmp"},
-      { stimulus: "img/orig/F30SA2.bmp"},
-      { stimulus: "img/orig/F32SA2.bmp"},
-      { stimulus: "img/orig/F33SA.bmp"}
-    ];
+    // Training Trial Prep
+    var instructions_2 = {
+      type: "html-keyboard-response",
+      stimulus: "<p>You will now do a training trial. The 'S' key is short and the 'L' key is long.</p>",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
+    };
+    timeline.push(instructions_2);
 
-    var blob_stimuli = [
-      { stimulus: "img/blob/F04FE-120.png"},
-      { stimulus: "img/blob/F04SA-120.png"},
-      { stimulus: "img/blob/F05FE-120.png"},
-      { stimulus: "img/blob/F05SA-120.png"},
-      { stimulus: "img/blob/F06FE-120.png"},
-      { stimulus: "img/blob/F08SA-120.png"},
-      { stimulus: "img/blob/F10FE-120.png"},
-      { stimulus: "img/blob/F11FE-120.png"},
-      { stimulus: "img/blob/F13FE-120.png"},
-      { stimulus: "img/blob/F14SA-120.png"},
-      { stimulus: "img/blob/F21FE-120.png"},
-      { stimulus: "img/blob/F26SA-120.png"},
-      { stimulus: "img/blob/F27SA-120.png"},
-      { stimulus: "img/blob/F28FE2-120.png"},
-      { stimulus: "img/blob/F28SA-120.png"},
-      { stimulus: "img/blob/F30FE2-120.png"},
-      { stimulus: "img/blob/F30FE3-120.png"},
-      { stimulus: "img/blob/F30SA2-120.png"},
-      { stimulus: "img/blob/F32SA2-120.png"},
-      { stimulus: "img/blob/F33SA-120.png"}
-    ];
+    // TRAINING TRIAL
+
+    // Short duration
+    var training_prompt_s = {
+      type: "html-keyboard-response",
+      stimulus: "<p>The short duration will be shown. Ready?</p>",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
+    };
+    timeline.push(training_prompt_s);
+
+    var short_neutral = {
+      type: 'image-keyboard-response',
+      stimulus: 'img/neutral.png',
+      choices: jsPsych.NO_KEYS,
+      trial_duration: 400
+    };
+
+    timeline.push(short_neutral);
+
+    // Short duration
+    var training_prompt_l = {
+      type: "html-keyboard-response",
+      stimulus: "<p>The long duration will be shown. Ready?</p>",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
+    };
+    timeline.push(training_prompt_l);
+
+    var long_neutral = {
+      type: 'image-keyboard-response',
+      stimulus: 'img/neutral.png',
+      choices: jsPsych.NO_KEYS,
+      trial_duration: 1600
+    };
+
+    timeline.push(long_neutral);
+
+    // Training Test
+    var training_test_instructions = {
+      type: "html-keyboard-response",
+      stimulus: "<p>You will now be prompted with an image and asked if it is more like the long or short condition.</p>",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
+    };
+    timeline.push(training_test_instructions);
+
+    var pause = {
+      type: 'html-keyboard-response',
+      stimulus: "<p> </p>",
+      choices: jsPsych.NO_KEYS,
+      trial_duration: 400 // need to change this
+    };
+
+    //Global ready screen
+    var ready = {
+      type: "html-keyboard-response",
+      stimulus: "<p>Ready?</p>",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
+    };
+
+    var training_test = {
+      type: "image-keyboard-response",
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      choices: jsPsych.NO_KEYS,
+      trial_duration: function() {
+        return jsPsych.randomization.sampleWithoutReplacement([400, 400, 400, 1600, 1600, 1600], 1)[0];
+      }
+    };
+
+    var training_eval = {
+      type: "html-keyboard-response",
+      stimulus: "<p>Was the previous image more like the short or long duration?</p>",
+      choices: ['s', 'l'],
+      prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>'
+    };
+
+    var training_procedure = {
+      timeline: [pause, ready, training_test, training_eval],
+      timeline_variables: testing_stimuli
+    };
+
+    timeline.push(training_procedure);
+
+    // TESTING PHASE
+
+    // Instructions
+    var testing_test_intro = {
+      type: "html-keyboard-response",
+      stimulus: "<p>You will now begin the actual test. You will be shown the durations once more.</p>",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
+    };
+    timeline.push(testing_test_intro);
+
+    timeline.push(training_prompt_s);
+    timeline.push(short_neutral);
+    timeline.push(training_prompt_l);
+    timeline.push(long_neutral);
+
+    // Test
+    var testing_test_instructions = {
+      type: "html-keyboard-response",
+      stimulus: "<p>You will now be prompted with an image and asked if it is more like the long or short condition.</p>",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
+    };
+    timeline.push(testing_test_instructions);
+
+    var testing_test = {
+      type: "image-keyboard-response",
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      choices: jsPsych.NO_KEYS,
+      trial_duration: function() {
+        return jsPsych.randomization.sampleWithReplacement([400, 600, 400, 800, 1000, 1200, 1400, 1600], 1)[0];
+      }
+    };
+
+    var testing_eval = {
+      type: "html-keyboard-response",
+      stimulus: "<p>Was the previous image more like the short or long duration?</p>",
+      choices: ['s', 'l'],
+      prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>'
+    };
+
+    var testing_procedure = {
+      timeline: [pause, ready, testing_test, testing_eval],
+      timeline_variables: blob_stimuli
+    };
+
+    timeline.push(testing_procedure);
 
     /* start the experiment */
     jsPsych.init({

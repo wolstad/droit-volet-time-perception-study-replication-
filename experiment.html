@@ -11,30 +11,25 @@
   <body></body>
   <script>
 
-  // QUESTIONS FOR JOSH
-  // - test trial duration
+  // TO DO
   // - How the heck can we rip and organize this data?
   // - What to do at end of experiment?
+  // - text too long
+  // - duration not condition
+  // - add debrief
+  // - technical difficulty screen
+  // - add delay before showing images and after
 
   // STIMULI DEFINITIONS
 
   var testing_stimuli = [
-     { stimulus: 'img/neutral.png'},
-     { stimulus: 'img/neutral.png'},
-     { stimulus: 'img/neutral.png'},
-     { stimulus: 'img/neutral.png'},
-     { stimulus: 'img/neutral.png'},
-     { stimulus: 'img/neutral.png'}
-   ];
-
-  // var testing_stimuli = [
-  //   { stimulus: 'img/neutral.png', duration: 400},
-  //   { stimulus: 'img/neutral.png', duration: 400},
-  //   { stimulus: 'img/neutral.png', duration: 400},
-  //   { stimulus: 'img/neutral.png', duration: 1600},
-  //   { stimulus: 'img/neutral.png', duration: 1600},
-  //   { stimulus: 'img/neutral.png', duration: 1600}
-  // ];
+    { stimulus: 'img/neutral.png', duration: 400},
+    { stimulus: 'img/neutral.png', duration: 400},
+    { stimulus: 'img/neutral.png', duration: 400},
+    { stimulus: 'img/neutral.png', duration: 1600},
+    { stimulus: 'img/neutral.png', duration: 1600},
+    { stimulus: 'img/neutral.png', duration: 1600}
+  ];
 
   var orig_stimuli = [
     { stimulus: "img/orig/F04FE.jpg"},
@@ -85,7 +80,8 @@
     // TIMELINE DEFINITIONS
     var timeline = [];
 
-    var condition_choice = Math.round(Math.random());
+    // var condition_choice = Math.round(Math.random());
+    var condition_choice = 0;
 
     // INSTRUCTIONS
 
@@ -184,8 +180,8 @@
       type: "image-keyboard-response",
       stimulus: jsPsych.timelineVariable('stimulus'),
       choices: jsPsych.NO_KEYS,
-      trial_duration: 400
-      // randomize_order: true
+      trial_duration: jsPsych.timelineVariable('duration'),
+      randomize_order: true
     };
 
     var training_eval = {

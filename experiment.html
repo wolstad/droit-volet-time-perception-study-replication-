@@ -13,12 +13,7 @@
 
   // TO DO
   // - How the heck can we rip and organize this data?
-  // - What to do at end of experiment?
-  // - text too long
-  // - duration not condition
-  // - add debrief
-  // - technical difficulty screen
-  // - add delay before showing images and after
+  // - how does this survey work
 
   // STIMULI DEFINITIONS
 
@@ -97,7 +92,9 @@
     // Initial Instructions
     var instructions_1 = {
       type: "html-keyboard-response",
-      stimulus: "<p>In this experiment, you will be shown a neutral dot for a long and short duration. You will then be asked to say whether the duration of subsequent images was closer to what you saw in short or long. In the practice the subsequent images will all be the same dot.",
+      stimulus: "<p>In this experiment, you will be shown a neutral dot for a long and short duration.</p>" +
+                "<br><p>You will then be asked to say whether the duration of subsequent images was closer to what you saw in short or long.<br><p>" +
+                "<br><p>In the practice, the subsequent images will all be the same dot.<br><p><br>",
       choices: [' '],
       prompt: '<p>Press space to continue.</p>'
     };
@@ -153,7 +150,7 @@
     // Training Test
     var training_test_instructions = {
       type: "html-keyboard-response",
-      stimulus: "<p>You will now be prompted with an image and asked if it is more like the long or short condition.</p>",
+      stimulus: "<p>You will now be prompted with an image and asked if it is more like the long or short duration.</p>",
       choices: [' '],
       prompt: '<p>Press space to continue.</p>'
     };
@@ -166,6 +163,14 @@
       trial_duration: function() {
         return 500 + Math.floor(Math.random() * Math.floor(500)); // interval between 500-1000ms
       }
+    };
+
+    // Image delay
+    var img_delay = {
+      type: 'html-keyboard-response',
+      stimulus: "<p> </p>",
+      choices: jsPsych.NO_KEYS,
+      trial_duration: 800
     };
 
     //Global ready screen
@@ -192,7 +197,7 @@
     };
 
     var training_procedure = {
-      timeline: [pause, ready, training_test, training_eval],
+      timeline: [pause, ready, img_delay, training_test, img_delay, training_eval],
       timeline_variables: testing_stimuli
     };
 
@@ -203,7 +208,9 @@
     // Instructions
     var testing_test_intro = {
       type: "html-keyboard-response",
-      stimulus: "<p>You will now begin the actual test. The instructions are the same as they were for the practice round. You will be shown the durations once more.</p>",
+      stimulus: "<p>You will now begin the actual test.</p>" +
+                "<br><p>The instructions are the same as they were for the practice round.</p>" +
+                "<br><p>You will be shown the durations once more.</p>",
       choices: [' '],
       prompt: '<p>Press space to continue.</p>'
     };
@@ -217,7 +224,7 @@
     // Test
     var testing_test_instructions = {
       type: "html-keyboard-response",
-      stimulus: "<p>You will now be prompted with an image and asked if it is more like the long or short condition.</p>",
+      stimulus: "<p>You will now be prompted with an image and asked if it is more like the long or short duration.</p>",
       choices: [' '],
       prompt: '<p>Press space to continue.</p>'
     };
@@ -240,12 +247,44 @@
     };
 
     var testing_procedure = {
-      timeline: [pause, ready, testing_test, testing_eval],
+      timeline: [pause, ready, img_delay, testing_test, img_delay, testing_eval],
       timeline_variables: ((condition_choice == 0) ? blob_stimuli : orig_stimuli),
       randomize_order: true
     };
 
     timeline.push(testing_procedure);
+
+    // Debrief
+    var debrief_1 = {
+      type: "html-keyboard-response",
+      stimulus: "Thank you for completing the experiment.",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
+    };
+    timeline.push(debrief_1);
+
+    var debrief_2 = {
+      type: "html-keyboard-response",
+      stimulus: "Here is what the experiment was about.",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
+    };
+    timeline.push(debrief_2);
+
+    var debrief_3 = {
+      type: "survey-text",
+      questions: [
+        {prompt: "Did you have any difficulty or feedback about the experiment?"}
+      ],
+    };
+    timeline.push(debrief_3);
+
+    var debrief_4 = {
+      type: "html-keyboard-response",
+      stimulus: "Link to go back to thing.",
+      choices: jsPsych.NO_KEYS
+    };
+    timeline.push(debrief_4);
 
     /* start the experiment */
     jsPsych.init({

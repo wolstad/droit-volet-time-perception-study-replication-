@@ -14,7 +14,6 @@
 
   // TO DO
   // - How the heck can we rip and organize this data?
-  // - how does this survey work
 
   // STIMULI DEFINITIONS
 
@@ -231,7 +230,6 @@
     timeline.push(testing_test_instructions);
 
     var curr_duration;
-    var curr_stim;
 
     var testing_test = {
       type: "image-keyboard-response",
@@ -248,9 +246,7 @@
       stimulus: "<p>Was the previous image more like the short or long duration?</p>",
       choices: ['s', 'l'],
       prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>',
-      data: {stim_name: function() {
-              return curr_duration;
-            },
+      data: {stim_name: jsPsych.timelineVariable('stimulus'),
              img_duration: function() {
                return curr_duration;
              }

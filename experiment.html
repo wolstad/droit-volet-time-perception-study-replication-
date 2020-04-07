@@ -4,6 +4,7 @@
     <title>Experiment</title>
     <script src="jsPsych-master/jspsych.js"></script>
     <script src="jsPsych-master/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jsPsych-master/plugins/jspsych-survey-text.js"></script>
     <script src="jsPsych-master/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jsPsych-master/plugins/jspsych-image-keyboard-response.js"></script>
     <link href="jsPsych-master/css/jspsych.css" rel="stylesheet" type="text/css"></link>
@@ -19,64 +20,63 @@
 
   var testing_stimuli = [
     { stimulus: 'img/neutral.png', duration: 400},
-    { stimulus: 'img/neutral.png', duration: 400},
-    { stimulus: 'img/neutral.png', duration: 400},
-    { stimulus: 'img/neutral.png', duration: 1600},
-    { stimulus: 'img/neutral.png', duration: 1600},
-    { stimulus: 'img/neutral.png', duration: 1600}
+    // { stimulus: 'img/neutral.png', duration: 400},
+    // { stimulus: 'img/neutral.png', duration: 400},
+    // { stimulus: 'img/neutral.png', duration: 1600},
+    // { stimulus: 'img/neutral.png', duration: 1600},
+    // { stimulus: 'img/neutral.png', duration: 1600}
   ];
 
   var orig_stimuli = [
     { stimulus: "img/orig/F04FE.jpg"},
     { stimulus: "img/orig/F04SA.jpg"},
-    { stimulus: "img/orig/F05FE.jpg"},
-    { stimulus: "img/orig/F05SA.jpg"},
-    { stimulus: "img/orig/F06FE.jpg"},
-    { stimulus: "img/orig/F08SA.jpg"},
-    { stimulus: "img/orig/F10FE.jpg"},
-    { stimulus: "img/orig/F11FE.jpg"},
-    { stimulus: "img/orig/F13FE.jpg"},
-    { stimulus: "img/orig/F14SA.jpg"},
-    { stimulus: "img/orig/F21FE.jpg"},
-    { stimulus: "img/orig/F26SA.jpg"},
-    { stimulus: "img/orig/F27SA.jpg"},
-    { stimulus: "img/orig/F28FE2.jpg"},
-    { stimulus: "img/orig/F28SA.jpg"},
-    { stimulus: "img/orig/F30FE2.jpg"},
-    { stimulus: "img/orig/F30FE3.jpg"},
-    { stimulus: "img/orig/F30SA2.jpg"},
-    { stimulus: "img/orig/F32SA2.jpg"},
-    { stimulus: "img/orig/F33SA.jpg"}
+    // { stimulus: "img/orig/F05FE.jpg"},
+    // { stimulus: "img/orig/F05SA.jpg"},
+    // { stimulus: "img/orig/F06FE.jpg"},
+    // { stimulus: "img/orig/F08SA.jpg"},
+    // { stimulus: "img/orig/F10FE.jpg"},
+    // { stimulus: "img/orig/F11FE.jpg"},
+    // { stimulus: "img/orig/F13FE.jpg"},
+    // { stimulus: "img/orig/F14SA.jpg"},
+    // { stimulus: "img/orig/F21FE.jpg"},
+    // { stimulus: "img/orig/F26SA.jpg"},
+    // { stimulus: "img/orig/F27SA.jpg"},
+    // { stimulus: "img/orig/F28FE2.jpg"},
+    // { stimulus: "img/orig/F28SA.jpg"},
+    // { stimulus: "img/orig/F30FE2.jpg"},
+    // { stimulus: "img/orig/F30FE3.jpg"},
+    // { stimulus: "img/orig/F30SA2.jpg"},
+    // { stimulus: "img/orig/F32SA2.jpg"},
+    // { stimulus: "img/orig/F33SA.jpg"}
   ];
 
   var blob_stimuli = [
     { stimulus: "img/blob/F04FE-120.png"},
-    { stimulus: "img/blob/F04SA-120.png"},
     { stimulus: "img/blob/F05FE-120.png"},
-    { stimulus: "img/blob/F05SA-120.png"},
-    { stimulus: "img/blob/F06FE-120.png"},
-    { stimulus: "img/blob/F08SA-120.png"},
-    { stimulus: "img/blob/F10FE-120.png"},
-    { stimulus: "img/blob/F11FE-120.png"},
-    { stimulus: "img/blob/F13FE-120.png"},
-    { stimulus: "img/blob/F14SA-120.png"},
-    { stimulus: "img/blob/F21FE-120.png"},
-    { stimulus: "img/blob/F26SA-120.png"},
-    { stimulus: "img/blob/F27SA-120.png"},
-    { stimulus: "img/blob/F28FE2-120.png"},
-    { stimulus: "img/blob/F28SA-120.png"},
-    { stimulus: "img/blob/F30FE2-120.png"},
-    { stimulus: "img/blob/F30FE3-120.png"},
-    { stimulus: "img/blob/F30SA2-120.png"},
-    { stimulus: "img/blob/F32SA2-120.png"},
-    { stimulus: "img/blob/F33SA-120.png"}
+    // { stimulus: "img/blob/F04SA-120.png"},
+    // { stimulus: "img/blob/F05SA-120.png"},
+    // { stimulus: "img/blob/F06FE-120.png"},
+    // { stimulus: "img/blob/F08SA-120.png"},
+    // { stimulus: "img/blob/F10FE-120.png"},
+    // { stimulus: "img/blob/F11FE-120.png"},
+    // { stimulus: "img/blob/F13FE-120.png"},
+    // { stimulus: "img/blob/F14SA-120.png"},
+    // { stimulus: "img/blob/F21FE-120.png"},
+    // { stimulus: "img/blob/F26SA-120.png"},
+    // { stimulus: "img/blob/F27SA-120.png"},
+    // { stimulus: "img/blob/F28FE2-120.png"},
+    // { stimulus: "img/blob/F28SA-120.png"},
+    // { stimulus: "img/blob/F30FE2-120.png"},
+    // { stimulus: "img/blob/F30FE3-120.png"},
+    // { stimulus: "img/blob/F30SA2-120.png"},
+    // { stimulus: "img/blob/F32SA2-120.png"},
+    // { stimulus: "img/blob/F33SA-120.png"}
   ];
 
     // TIMELINE DEFINITIONS
     var timeline = [];
 
-    // var condition_choice = Math.round(Math.random());
-    var condition_choice = 0;
+    var condition_choice = Math.round(Math.random());
 
     // INSTRUCTIONS
 
@@ -230,12 +230,16 @@
     };
     timeline.push(testing_test_instructions);
 
+    var curr_duration;
+    var curr_stim;
+
     var testing_test = {
       type: "image-keyboard-response",
       stimulus: jsPsych.timelineVariable('stimulus'),
       choices: jsPsych.NO_KEYS,
       trial_duration: function() {
-        return jsPsych.randomization.sampleWithReplacement([400, 600, 400, 800, 1000, 1200, 1400, 1600], 1)[0];
+        curr_duration = jsPsych.randomization.sampleWithReplacement([400, 600, 400, 800, 1000, 1200, 1400, 1600], 1)[0];
+        return curr_duration;
       }
     };
 
@@ -243,7 +247,14 @@
       type: "html-keyboard-response",
       stimulus: "<p>Was the previous image more like the short or long duration?</p>",
       choices: ['s', 'l'],
-      prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>'
+      prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>',
+      data: {stim_name: function() {
+              return curr_duration;
+            },
+             img_duration: function() {
+               return curr_duration;
+             }
+      }
     };
 
     var testing_procedure = {
@@ -271,24 +282,28 @@
     };
     timeline.push(debrief_2);
 
-    var debrief_3 = {
-      type: "survey-text",
+    var survey_trial = {
+      type: 'survey-text',
       questions: [
-        {prompt: "Did you have any difficulty or feedback about the experiment?"}
+        {prompt: "Did you experience any issues or do you have any feedback about the experiment?", rows: 5, columns: 60}
       ],
     };
-    timeline.push(debrief_3);
+    timeline.push(survey_trial);
 
     var debrief_4 = {
       type: "html-keyboard-response",
       stimulus: "Link to go back to thing.",
-      choices: jsPsych.NO_KEYS
+      choices: [' '],
+      prompt: '<p>Press space to end the experiment.</p>'
     };
     timeline.push(debrief_4);
 
     /* start the experiment */
     jsPsych.init({
-      timeline: timeline
+      timeline: timeline,
+      on_finish: function() {
+        jsPsych.data.displayData();
+      }
     });
   </script>
 </html>

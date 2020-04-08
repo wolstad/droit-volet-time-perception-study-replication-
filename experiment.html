@@ -12,64 +12,61 @@
   <body></body>
   <script>
 
-  // TO DO
-  // - How the heck can we rip and organize this data?
-
   // STIMULI DEFINITIONS
 
   var testing_stimuli = [
     { stimulus: 'img/neutral.png', duration: 400},
-    // { stimulus: 'img/neutral.png', duration: 400},
-    // { stimulus: 'img/neutral.png', duration: 400},
-    // { stimulus: 'img/neutral.png', duration: 1600},
-    // { stimulus: 'img/neutral.png', duration: 1600},
-    // { stimulus: 'img/neutral.png', duration: 1600}
+    { stimulus: 'img/neutral.png', duration: 400},
+    { stimulus: 'img/neutral.png', duration: 400},
+    { stimulus: 'img/neutral.png', duration: 1600},
+    { stimulus: 'img/neutral.png', duration: 1600},
+    { stimulus: 'img/neutral.png', duration: 1600}
   ];
 
   var orig_stimuli = [
     { stimulus: "img/orig/F04FE.jpg"},
     { stimulus: "img/orig/F04SA.jpg"},
-    // { stimulus: "img/orig/F05FE.jpg"},
-    // { stimulus: "img/orig/F05SA.jpg"},
-    // { stimulus: "img/orig/F06FE.jpg"},
-    // { stimulus: "img/orig/F08SA.jpg"},
-    // { stimulus: "img/orig/F10FE.jpg"},
-    // { stimulus: "img/orig/F11FE.jpg"},
-    // { stimulus: "img/orig/F13FE.jpg"},
-    // { stimulus: "img/orig/F14SA.jpg"},
-    // { stimulus: "img/orig/F21FE.jpg"},
-    // { stimulus: "img/orig/F26SA.jpg"},
-    // { stimulus: "img/orig/F27SA.jpg"},
-    // { stimulus: "img/orig/F28FE2.jpg"},
-    // { stimulus: "img/orig/F28SA.jpg"},
-    // { stimulus: "img/orig/F30FE2.jpg"},
-    // { stimulus: "img/orig/F30FE3.jpg"},
-    // { stimulus: "img/orig/F30SA2.jpg"},
-    // { stimulus: "img/orig/F32SA2.jpg"},
-    // { stimulus: "img/orig/F33SA.jpg"}
+    { stimulus: "img/orig/F05FE.jpg"},
+    { stimulus: "img/orig/F05SA.jpg"},
+    { stimulus: "img/orig/F06FE.jpg"},
+    { stimulus: "img/orig/F08SA.jpg"},
+    { stimulus: "img/orig/F10FE.jpg"},
+    { stimulus: "img/orig/F11FE.jpg"},
+    { stimulus: "img/orig/F13FE.jpg"},
+    { stimulus: "img/orig/F14SA.jpg"},
+    { stimulus: "img/orig/F21FE.jpg"},
+    { stimulus: "img/orig/F26SA.jpg"},
+    { stimulus: "img/orig/F27SA.jpg"},
+    { stimulus: "img/orig/F28FE2.jpg"},
+    { stimulus: "img/orig/F28SA.jpg"},
+    { stimulus: "img/orig/F30FE2.jpg"},
+    { stimulus: "img/orig/F30FE3.jpg"},
+    { stimulus: "img/orig/F30SA2.jpg"},
+    { stimulus: "img/orig/F32SA2.jpg"},
+    { stimulus: "img/orig/F33SA.jpg"}
   ];
 
   var blob_stimuli = [
     { stimulus: "img/blob/F04FE-120.png"},
     { stimulus: "img/blob/F05FE-120.png"},
-    // { stimulus: "img/blob/F04SA-120.png"},
-    // { stimulus: "img/blob/F05SA-120.png"},
-    // { stimulus: "img/blob/F06FE-120.png"},
-    // { stimulus: "img/blob/F08SA-120.png"},
-    // { stimulus: "img/blob/F10FE-120.png"},
-    // { stimulus: "img/blob/F11FE-120.png"},
-    // { stimulus: "img/blob/F13FE-120.png"},
-    // { stimulus: "img/blob/F14SA-120.png"},
-    // { stimulus: "img/blob/F21FE-120.png"},
-    // { stimulus: "img/blob/F26SA-120.png"},
-    // { stimulus: "img/blob/F27SA-120.png"},
-    // { stimulus: "img/blob/F28FE2-120.png"},
-    // { stimulus: "img/blob/F28SA-120.png"},
-    // { stimulus: "img/blob/F30FE2-120.png"},
-    // { stimulus: "img/blob/F30FE3-120.png"},
-    // { stimulus: "img/blob/F30SA2-120.png"},
-    // { stimulus: "img/blob/F32SA2-120.png"},
-    // { stimulus: "img/blob/F33SA-120.png"}
+    { stimulus: "img/blob/F04SA-120.png"},
+    { stimulus: "img/blob/F05SA-120.png"},
+    { stimulus: "img/blob/F06FE-120.png"},
+    { stimulus: "img/blob/F08SA-120.png"},
+    { stimulus: "img/blob/F10FE-120.png"},
+    { stimulus: "img/blob/F11FE-120.png"},
+    { stimulus: "img/blob/F13FE-120.png"},
+    { stimulus: "img/blob/F14SA-120.png"},
+    { stimulus: "img/blob/F21FE-120.png"},
+    { stimulus: "img/blob/F26SA-120.png"},
+    { stimulus: "img/blob/F27SA-120.png"},
+    { stimulus: "img/blob/F28FE2-120.png"},
+    { stimulus: "img/blob/F28SA-120.png"},
+    { stimulus: "img/blob/F30FE2-120.png"},
+    { stimulus: "img/blob/F30FE3-120.png"},
+    { stimulus: "img/blob/F30SA2-120.png"},
+    { stimulus: "img/blob/F32SA2-120.png"},
+    { stimulus: "img/blob/F33SA-120.png"}
   ];
 
     // TIMELINE DEFINITIONS
@@ -180,6 +177,7 @@
       prompt: '<p>Press space to continue.</p>'
     };
 
+    // Display stimulus for training
     var training_test = {
       type: "image-keyboard-response",
       stimulus: jsPsych.timelineVariable('stimulus'),
@@ -188,6 +186,7 @@
       randomize_order: true
     };
 
+    // Participant stimulus response
     var training_eval = {
       type: "html-keyboard-response",
       stimulus: "<p>Was the previous image more like the short or long duration?</p>",
@@ -195,6 +194,7 @@
       prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>'
     };
 
+    // Assemble sequence for training phase
     var training_procedure = {
       timeline: [pause, ready, img_delay, training_test, img_delay, training_eval],
       timeline_variables: testing_stimuli
@@ -220,7 +220,7 @@
     timeline.push(training_prompt_l);
     timeline.push(long_neutral);
 
-    // Test
+    // Display instructions
     var testing_test_instructions = {
       type: "html-keyboard-response",
       stimulus: "<p>You will now be prompted with an image and asked if it is more like the long or short duration.</p>",
@@ -229,8 +229,9 @@
     };
     timeline.push(testing_test_instructions);
 
-    var curr_duration;
+    var curr_duration; // store duration stimulus was displayed
 
+    // Display stimulus
     var testing_test = {
       type: "image-keyboard-response",
       stimulus: jsPsych.timelineVariable('stimulus'),
@@ -241,18 +242,28 @@
       }
     };
 
+    // Have participant respond
     var testing_eval = {
       type: "html-keyboard-response",
       stimulus: "<p>Was the previous image more like the short or long duration?</p>",
       choices: ['s', 'l'],
       prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>',
-      data: {stim_name: jsPsych.timelineVariable('stimulus'),
-             img_duration: function() {
+      data: {test_phase: "testing",
+             stim_name: jsPsych.timelineVariable('stimulus'), // tag name of stimulus
+             img_duration: function() { // tag image duration
                return curr_duration;
              }
+      },
+      on_finish: function(data) { // convert user response in to string
+        if(data.key_press == 83) {
+          data.responded = "short"
+        } else {
+          data.responded = "long"
+        }
       }
     };
 
+    // Sequence testing procedure
     var testing_procedure = {
       timeline: [pause, ready, img_delay, testing_test, img_delay, testing_eval],
       timeline_variables: ((condition_choice == 0) ? blob_stimuli : orig_stimuli),
@@ -298,7 +309,7 @@
     jsPsych.init({
       timeline: timeline,
       on_finish: function() {
-        jsPsych.data.displayData();
+        jsPsych.data.get().localSave('csv', 'test_data.csv');
       }
     });
   </script>

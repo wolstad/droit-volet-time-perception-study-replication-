@@ -7,6 +7,8 @@
     <script src="jsPsych-master/plugins/jspsych-survey-text.js"></script>
     <script src="jsPsych-master/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jsPsych-master/plugins/jspsych-image-keyboard-response.js"></script>
+    <script src="js/serverComm.js"></script>
+    <script src="jsPsych-master/plugins/jspsych-call-function.js"</script>
     <link href="jsPsych-master/css/jspsych.css" rel="stylesheet" type="text/css"></link>
   </head>
   <body></body>
@@ -72,7 +74,23 @@
     // TIMELINE DEFINITIONS
     var timeline = [];
 
+    // Blob or original condition
     var condition_choice = Math.round(Math.random());
+
+    // Subject ID
+    var subject_id = jsPsych.randomization.randomID(30);
+
+    // Add subject ID and stimulus condition to data
+    jsPsych.data.addProperties({
+      subject_id: subject_id,
+      stimulus_choice: function() {
+        if (condition_choice == 0) {
+          return "blob";
+        } else {
+          return "orig"
+        }
+      }
+    })
 
     // INSTRUCTIONS
 
@@ -297,20 +315,25 @@
     };
     timeline.push(survey_trial);
 
+    var save_data = {
+      type: 'call-function',
+      func: function(){
+        serverComm.save_data(jsPsych.data.get().values());
+      }
+    }
+
+    timeline.push(save_data);
+
     var debrief_4 = {
       type: "html-keyboard-response",
-      stimulus: "Link to go back to thing.",
-      choices: [' '],
-      prompt: '<p>Press space to end the experiment.</p>'
+      stimulus: "All done. You can click here to go back to prolific.",
+      choices: jsPsych.NO_KEYS
     };
     timeline.push(debrief_4);
 
     /* start the experiment */
     jsPsych.init({
-      timeline: timeline,
-      on_finish: function() {
-        jsPsych.data.get().localSave('csv', 'test_data.csv');
-      }
+      timeline: timeline
     });
   </script>
 </html>

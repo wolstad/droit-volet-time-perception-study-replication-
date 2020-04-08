@@ -16,6 +16,18 @@
 
   // STIMULI DEFINITIONS
 
+  var images = ['img/neutral.png', "img/orig/F04FE.jpg", "img/orig/F04SA.jpg", "img/orig/F05FE.jpg",
+  "img/orig/F05SA.jpg", "img/orig/F06FE.jpg", "img/orig/F08SA.jpg", "img/orig/F10FE.jpg",
+  "img/orig/F11FE.jpg", "img/orig/F13FE.jpg", "img/orig/F14SA.jpg", "img/orig/F21FE.jpg",
+  "img/orig/F26SA.jpg", "img/orig/F27SA.jpg", "img/orig/F28FE2.jpg", "img/orig/F28SA.jpg",
+  "img/orig/F30FE2.jpg", "img/orig/F30FE3.jpg", "img/orig/F30SA2.jpg", "img/orig/F32SA2.jpg",
+  "img/orig/F33SA.jpg", "img/blob/F04FE-120.png", "img/blob/F04SA-120.png", "img/blob/F05FE-120.png",
+  "img/blob/F05SA-120.png", "img/blob/F06FE-120.png", "img/blob/F08SA-120.png", "img/blob/F10FE-120.png",
+  "img/blob/F11FE-120.png", "img/blob/F13FE-120.png", "img/blob/F14SA-120.png", "img/blob/F21FE-120.png",
+  "img/blob/F26SA-120.png", "img/blob/F27SA-120.png", "img/blob/F28FE2-120.png", "img/blob/F28SA-120.png",
+  "img/blob/F30FE2-120.png", "img/blob/F30FE3-120.png", "img/blob/F30SA2-120.png", "img/blob/F32SA2-120.png",
+  "img/blob/F33SA-120.png"];
+
   var testing_stimuli = [
     { stimulus: 'img/neutral.png', duration: 400},
     { stimulus: 'img/neutral.png', duration: 400},
@@ -333,7 +345,8 @@
 
     /* start the experiment */
     jsPsych.init({
-      timeline: timeline
+      timeline: timeline,
+      preload_images: images
     });
   </script>
 </html>

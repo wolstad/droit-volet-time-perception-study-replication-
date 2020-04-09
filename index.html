@@ -90,7 +90,10 @@
     var condition_choice = Math.round(Math.random());
 
     // Subject ID
-    var subject_id = jsPsych.randomization.randomID(30);
+    var subject_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
+    if(typeof subject_id == 'undefined'){
+      subject_id = jsPsych.randomization.randomID(30);
+    }
 
     // Add subject ID and stimulus condition to data
     jsPsych.data.addProperties({
@@ -337,10 +340,10 @@
     timeline.push(save_data);
 
     var debrief_4 = {
-      type: "html-keyboard-response",
-      stimulus: "All done. You can click here to go back to prolific.",
-      choices: jsPsych.NO_KEYS
-    };
+      type: 'html-keyboard-response',
+      stimulus: '<p><a href="http://www.prolific.co">Click here to return to Prolific and complete the study</a>. You do not need a completion code.</p>',
+      choices: jsPsych.NO_KEYS,
+    }
     timeline.push(debrief_4);
 
     /* start the experiment */

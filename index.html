@@ -87,7 +87,7 @@
     var timeline = [];
 
     // Blob or original condition
-    var condition_choice = Math.round(Math.random());
+    var condition_choice = null;
 
     // Subject ID
     var subject_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
@@ -95,276 +95,290 @@
       subject_id = jsPsych.randomization.randomID(30);
     }
 
-    // Add subject ID and stimulus condition to data
-    jsPsych.data.addProperties({
-      subject_id: subject_id,
-      stimulus_choice: function() {
-        if (condition_choice == 0) {
-          return "blob";
-        } else {
-          return "orig"
-        }
-      }
-    })
+    var n_conditions = 2;
 
-    // INSTRUCTIONS
-
-    // Welcome Message
-    var welcome = {
-      type: "html-keyboard-response",
-      stimulus: "Welcome to the experiment.",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(welcome);
-
-    // Initial Instructions
-    var instructions_1 = {
-      type: "html-keyboard-response",
-      stimulus: "<p>In this experiment, you will be shown a neutral dot for a long and short duration.</p>" +
-                "<br><p>You will then be asked to say whether the duration of subsequent images was closer to what you saw in short or long.<br><p>" +
-                "<br><p>In the practice, the subsequent images will all be the same dot.<br><p><br>",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(instructions_1);
-
-    // Training Trial Prep
-    var instructions_2 = {
-      type: "html-keyboard-response",
-      stimulus: "<p>You will now do a training trial. The 'S' key is short and the 'L' key is long.</p>",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(instructions_2);
-
-    // TRAINING TRIAL
-
-    // Short duration
-    var training_prompt_s = {
-      type: "html-keyboard-response",
-      stimulus: "<p>The short duration will be shown. Ready?</p>",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(training_prompt_s);
-
-    var short_neutral = {
-      type: 'image-keyboard-response',
-      stimulus: 'img/neutral.png',
-      choices: jsPsych.NO_KEYS,
-      trial_duration: 400
-    };
-
-    timeline.push(short_neutral);
-
-    // Short duration
-    var training_prompt_l = {
-      type: "html-keyboard-response",
-      stimulus: "<p>The long duration will be shown. Ready?</p>",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(training_prompt_l);
-
-    var long_neutral = {
-      type: 'image-keyboard-response',
-      stimulus: 'img/neutral.png',
-      choices: jsPsych.NO_KEYS,
-      trial_duration: 1600
-    };
-
-    timeline.push(long_neutral);
-
-    // Training Test
-    var training_test_instructions = {
-      type: "html-keyboard-response",
-      stimulus: "<p>You will now be prompted with an image and asked if it is more like the long or short duration.</p>",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(training_test_instructions);
-
-    var pause = {
-      type: 'html-keyboard-response',
-      stimulus: "<p> </p>",
-      choices: jsPsych.NO_KEYS,
-      trial_duration: function() {
-        return 500 + Math.floor(Math.random() * Math.floor(500)); // interval between 500-1000ms
-      }
-    };
-
-    // Image delay
-    var img_delay = {
-      type: 'html-keyboard-response',
-      stimulus: "<p> </p>",
-      choices: jsPsych.NO_KEYS,
-      trial_duration: 800
-    };
-
-    //Global ready screen
-    var ready = {
-      type: "html-keyboard-response",
-      stimulus: "<p>Ready?</p>",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-
-    // Display stimulus for training
-    var training_test = {
-      type: "image-keyboard-response",
-      stimulus: jsPsych.timelineVariable('stimulus'),
-      choices: jsPsych.NO_KEYS,
-      trial_duration: jsPsych.timelineVariable('duration')
-    };
-
-    // Participant stimulus response
-    var training_eval = {
-      type: "html-keyboard-response",
-      stimulus: "<p>Was the previous image more like the short or long duration?</p>",
-      choices: ['s', 'l'],
-      prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>'
-    };
-
-    // Assemble sequence for training phase
-    var training_procedure = {
-      timeline: [pause, ready, img_delay, training_test, img_delay, training_eval],
-      randomize_order: true,
-      timeline_variables: testing_stimuli
-    };
-
-    timeline.push(training_procedure);
-
-    // TESTING PHASE
-
-    // Instructions
-    var testing_test_intro = {
-      type: "html-keyboard-response",
-      stimulus: "<p>You will now begin the actual test.</p>" +
-                "<br><p>The instructions are the same as they were for the practice round.</p>" +
-                "<br><p>You will be shown the durations once more.</p>",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(testing_test_intro);
-
-    timeline.push(training_prompt_s);
-    timeline.push(short_neutral);
-    timeline.push(training_prompt_l);
-    timeline.push(long_neutral);
-
-    // Display instructions
-    var testing_test_instructions = {
-      type: "html-keyboard-response",
-      stimulus: ((condition_choice == 0) ?
-      "<p>You will now be prompted with an image of a bird and asked if it is more like the long or short duration.</p>" :
-      "<p>You will now be prompted with an image and asked if it is more like the long or short duration.</p>"),
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(testing_test_instructions);
-
-    var curr_duration; // store duration stimulus was displayed
-
-    // Display stimulus
-    var testing_test = {
-      type: "image-keyboard-response",
-      stimulus: jsPsych.timelineVariable('stimulus'),
-      choices: jsPsych.NO_KEYS,
-      trial_duration: function() {
-        curr_duration = jsPsych.randomization.sampleWithReplacement([400, 600, 400, 800, 1000, 1200, 1400, 1600], 1)[0];
-        return curr_duration;
-      }
-    };
-
-    // Have participant respond
-    var testing_eval = {
-      type: "html-keyboard-response",
-      stimulus: "<p>Was the previous image more like the short or long duration?</p>",
-      choices: ['s', 'l'],
-      prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>',
-      data: {test_phase: "testing",
-             stim_name: jsPsych.timelineVariable('stimulus'), // tag name of stimulus
-             img_duration: function() { // tag image duration
-               return curr_duration;
-             }
+    serverComm.assign_condition(subject_id, n_conditions,
+      function(response){
+        condition_choice = response.assignedCondition;
+        start_experiment();
       },
-      on_finish: function(data) { // convert user response in to string
-        if(data.key_press == 83) {
-          data.responded = "short"
-        } else {
-          data.responded = "long"
+      function(){
+        document.querySelector('body').innerHTML = '<p>Our apologies. There was a technical error on our end while loading the experiment.</p><p>You will not be able to complete the experiment. We are sorry for the trouble.</p>';
+      }
+    );
+
+    function start_experiment() {
+      // Add subject ID and stimulus condition to data
+      jsPsych.data.addProperties({
+        subject_id: subject_id,
+        stimulus_choice: function() {
+          if (condition_choice == 0) {
+            return "blob";
+          } else {
+            return "orig"
+          }
+        }
+      })
+
+      // INSTRUCTIONS
+
+      // Welcome Message
+      var welcome = {
+        type: "html-keyboard-response",
+        stimulus: "Welcome to the experiment.",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(welcome);
+
+      // Initial Instructions
+      var instructions_1 = {
+        type: "html-keyboard-response",
+        stimulus: "<p>In this experiment, you will be shown a neutral dot for a long and short duration.</p>" +
+                  "<br><p>You will then be asked to say whether the duration of subsequent images was closer to what you saw in short or long.<br><p>" +
+                  "<br><p>In the practice, the subsequent images will all be the same dot.<br><p><br>",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(instructions_1);
+
+      // Training Trial Prep
+      var instructions_2 = {
+        type: "html-keyboard-response",
+        stimulus: "<p>You will now do a training trial. The 'S' key is short and the 'L' key is long.</p>",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(instructions_2);
+
+      // TRAINING TRIAL
+
+      // Short duration
+      var training_prompt_s = {
+        type: "html-keyboard-response",
+        stimulus: "<p>The short duration will be shown. Ready?</p>",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(training_prompt_s);
+
+      var short_neutral = {
+        type: 'image-keyboard-response',
+        stimulus: 'img/neutral.png',
+        choices: jsPsych.NO_KEYS,
+        trial_duration: 400
+      };
+
+      timeline.push(short_neutral);
+
+      // Short duration
+      var training_prompt_l = {
+        type: "html-keyboard-response",
+        stimulus: "<p>The long duration will be shown. Ready?</p>",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(training_prompt_l);
+
+      var long_neutral = {
+        type: 'image-keyboard-response',
+        stimulus: 'img/neutral.png',
+        choices: jsPsych.NO_KEYS,
+        trial_duration: 1600
+      };
+
+      timeline.push(long_neutral);
+
+      // Training Test
+      var training_test_instructions = {
+        type: "html-keyboard-response",
+        stimulus: "<p>You will now be prompted with an image and asked if it is more like the long or short duration.</p>",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(training_test_instructions);
+
+      var pause = {
+        type: 'html-keyboard-response',
+        stimulus: "<p> </p>",
+        choices: jsPsych.NO_KEYS,
+        trial_duration: function() {
+          return 500 + Math.floor(Math.random() * Math.floor(500)); // interval between 500-1000ms
+        }
+      };
+
+      // Image delay
+      var img_delay = {
+        type: 'html-keyboard-response',
+        stimulus: "<p> </p>",
+        choices: jsPsych.NO_KEYS,
+        trial_duration: 800
+      };
+
+      //Global ready screen
+      var ready = {
+        type: "html-keyboard-response",
+        stimulus: "<p>Ready?</p>",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+
+      // Display stimulus for training
+      var training_test = {
+        type: "image-keyboard-response",
+        stimulus: jsPsych.timelineVariable('stimulus'),
+        choices: jsPsych.NO_KEYS,
+        trial_duration: jsPsych.timelineVariable('duration')
+      };
+
+      // Participant stimulus response
+      var training_eval = {
+        type: "html-keyboard-response",
+        stimulus: "<p>Was the previous image more like the short or long duration?</p>",
+        choices: ['s', 'l'],
+        prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>'
+      };
+
+      // Assemble sequence for training phase
+      var training_procedure = {
+        timeline: [pause, ready, img_delay, training_test, img_delay, training_eval],
+        randomize_order: true,
+        timeline_variables: testing_stimuli
+      };
+
+      timeline.push(training_procedure);
+
+      // TESTING PHASE
+
+      // Instructions
+      var testing_test_intro = {
+        type: "html-keyboard-response",
+        stimulus: "<p>You will now begin the actual test.</p>" +
+                  "<br><p>The instructions are the same as they were for the practice round.</p>" +
+                  "<br><p>You will be shown the durations once more.</p>",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(testing_test_intro);
+
+      timeline.push(training_prompt_s);
+      timeline.push(short_neutral);
+      timeline.push(training_prompt_l);
+      timeline.push(long_neutral);
+
+      // Display instructions
+      var testing_test_instructions = {
+        type: "html-keyboard-response",
+        stimulus: ((condition_choice == 0) ?
+        "<p>You will now be prompted with an image of a bird and asked if it is more like the long or short duration.</p>" :
+        "<p>You will now be prompted with an image and asked if it is more like the long or short duration.</p>"),
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(testing_test_instructions);
+
+      var curr_duration; // store duration stimulus was displayed
+
+      // Display stimulus
+      var testing_test = {
+        type: "image-keyboard-response",
+        stimulus: jsPsych.timelineVariable('stimulus'),
+        choices: jsPsych.NO_KEYS,
+        trial_duration: function() {
+          curr_duration = jsPsych.randomization.sampleWithReplacement([400, 600, 400, 800, 1000, 1200, 1400, 1600], 1)[0];
+          return curr_duration;
+        }
+      };
+
+      // Have participant respond
+      var testing_eval = {
+        type: "html-keyboard-response",
+        stimulus: "<p>Was the previous image more like the short or long duration?</p>",
+        choices: ['s', 'l'],
+        prompt: '<p>Press \'S\' for the short duration and \'L\' for the long duration.</p>',
+        data: {test_phase: "testing",
+               stim_name: jsPsych.timelineVariable('stimulus'), // tag name of stimulus
+               img_duration: function() { // tag image duration
+                 return curr_duration;
+               }
+        },
+        on_finish: function(data) { // convert user response in to string
+          if(data.key_press == 83) {
+            data.responded = "short"
+          } else {
+            data.responded = "long"
+          }
+        }
+      };
+
+      // Sequence testing procedure
+      var testing_procedure = {
+        timeline: [pause, ready, img_delay, testing_test, img_delay, testing_eval],
+        timeline_variables: ((condition_choice == 0) ? blob_stimuli : orig_stimuli),
+        randomize_order: true
+      };
+
+      timeline.push(testing_procedure);
+
+      // Debrief
+      var debrief_1 = {
+        type: "html-keyboard-response",
+        stimulus: "Thank you for participating in our study!",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(debrief_1);
+
+      var debrief_2 = {
+        type: "html-keyboard-response",
+        stimulus: "This experiment is a modified replication of a 2015 study on the relationship between emotion and time perception. " +
+        "The original study found that images displaying certain emotions (namely fear and sadness) elicited changes in the participants’ perception" +
+        " of time, with fear resulting in a lengthening effect. In our modified replication, we are examining whether this effect is truly tied to " +
+        "emotion, or whether it is a result of some other underlying factor in the images (such as visual differences in body posture complexity between the categories).",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(debrief_2);
+
+      var debrief_3 = {
+        type: "html-keyboard-response",
+        stimulus: "To test this, we created two sets of images: one taken from the original study, and one that we modified to remove any inherent emotion " +
+        "(by tracing over the images, removing the head, and rotating the images). If the effect disappears when the test is run with the modified images, then" +
+        " it can appropriately be attributed to the emotion. If the effect is still present, then it is likely caused by some other factor.",
+        choices: [' '],
+        prompt: '<p>Press space to continue.</p>'
+      };
+      timeline.push(debrief_3);
+
+      var survey_trial = {
+        type: 'survey-text',
+        questions: [
+          {prompt: "Did you experience any issues/feedback about the experiment?", rows: 5, columns: 60}
+        ],
+      };
+      timeline.push(survey_trial);
+
+      var save_data = {
+        type: 'call-function',
+        func: function(){
+          serverComm.save_data(jsPsych.data.get().values());
         }
       }
-    };
 
-    // Sequence testing procedure
-    var testing_procedure = {
-      timeline: [pause, ready, img_delay, testing_test, img_delay, testing_eval],
-      timeline_variables: ((condition_choice == 0) ? blob_stimuli : orig_stimuli),
-      randomize_order: true
-    };
+      timeline.push(save_data);
 
-    timeline.push(testing_procedure);
-
-    // Debrief
-    var debrief_1 = {
-      type: "html-keyboard-response",
-      stimulus: "Thank you for participating in our study!",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(debrief_1);
-
-    var debrief_2 = {
-      type: "html-keyboard-response",
-      stimulus: "This experiment is a modified replication of a 2015 study on the relationship between emotion and time perception. " +
-      "The original study found that images displaying certain emotions (namely fear and sadness) elicited changes in the participants’ perception" +
-      " of time, with fear resulting in a lengthening effect. In our modified replication, we are examining whether this effect is truly tied to " +
-      "emotion, or whether it is a result of some other underlying factor in the images (such as visual differences in body posture complexity between the categories).",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(debrief_2);
-
-    var debrief_3 = {
-      type: "html-keyboard-response",
-      stimulus: "To test this, we created two sets of images: one taken from the original study, and one that we modified to remove any inherent emotion " +
-      "(by tracing over the images, removing the head, and rotating the images). If the effect disappears when the test is run with the modified images, then" +
-      " it can appropriately be attributed to the emotion. If the effect is still present, then it is likely caused by some other factor.",
-      choices: [' '],
-      prompt: '<p>Press space to continue.</p>'
-    };
-    timeline.push(debrief_3);
-
-    var survey_trial = {
-      type: 'survey-text',
-      questions: [
-        {prompt: "Did you experience any issues/feedback about the experiment?", rows: 5, columns: 60}
-      ],
-    };
-    timeline.push(survey_trial);
-
-    var save_data = {
-      type: 'call-function',
-      func: function(){
-        serverComm.save_data(jsPsych.data.get().values());
+      var debrief_4 = {
+        type: 'html-keyboard-response',
+        stimulus: '<p><a href="https://app.prolific.co/submissions/complete?cc=6AF206E5">Click here to return to Prolific and complete the study</a>. You do not need a completion code.</p>',
+        choices: jsPsych.NO_KEYS,
       }
-    }
+      timeline.push(debrief_4);
 
-    timeline.push(save_data);
-
-    var debrief_4 = {
-      type: 'html-keyboard-response',
-      stimulus: '<p><a href="https://app.prolific.co/submissions/complete?cc=6AF206E5">Click here to return to Prolific and complete the study</a>. You do not need a completion code.</p>',
-      choices: jsPsych.NO_KEYS,
-    }
-    timeline.push(debrief_4);
-
-    /* start the experiment */
-    jsPsych.init({
-      timeline: timeline,
-      preload_images: images
-    });
+      /* start the experiment */
+      jsPsych.init({
+        timeline: timeline,
+        preload_images: images
+      });
+  }
   </script>
 </html>

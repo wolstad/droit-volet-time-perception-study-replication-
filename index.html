@@ -310,7 +310,7 @@
     // Debrief
     var debrief_1 = {
       type: "html-keyboard-response",
-      stimulus: "Thank you for completing the experiment.",
+      stimulus: "Thank you for participating in our study!",
       choices: [' '],
       prompt: '<p>Press space to continue.</p>'
     };
@@ -318,16 +318,29 @@
 
     var debrief_2 = {
       type: "html-keyboard-response",
-      stimulus: "Here is what the experiment was about.",
+      stimulus: "This experiment is a modified replication of a 2015 study on the relationship between emotion and time perception. " +
+      "The original study found that images displaying certain emotions (namely fear and sadness) elicited changes in the participants’ perception" +
+      " of time, with fear resulting in a lengthening effect. In our modified replication, we are examining whether this effect is truly tied to " +
+      "emotion, or whether it is a result of some other underlying factor in the images (such as visual differences in body posture complexity between the categories).",
       choices: [' '],
       prompt: '<p>Press space to continue.</p>'
     };
     timeline.push(debrief_2);
 
+    var debrief_3 = {
+      type: "html-keyboard-response",
+      stimulus: "To test this, we created two sets of images: one taken from the original study, and one that we modified to remove any inherent emotion " +
+      "(by tracing over the images, removing the head, and rotating the images). If the effect disappears when the test is run with the modified images, then" +
+      " it can appropriately be attributed to the emotion. If the effect is still present, then it is likely caused by some other factor.",
+      choices: [' '],
+      prompt: '<p>Press space to continue.</p>'
+    };
+    timeline.push(debrief_3);
+
     var survey_trial = {
       type: 'survey-text',
       questions: [
-        {prompt: "Did you experience any issues or do you have any feedback about the experiment?", rows: 5, columns: 60}
+        {prompt: "Did you experience any issues/feedback about the experiment?", rows: 5, columns: 60}
       ],
     };
     timeline.push(survey_trial);

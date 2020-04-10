@@ -256,7 +256,9 @@
     // Display instructions
     var testing_test_instructions = {
       type: "html-keyboard-response",
-      stimulus: "<p>You will now be prompted with an image and asked if it is more like the long or short duration.</p>",
+      stimulus: ((condition_choice == 0) ?
+      "<p>You will now be prompted with an image of a bird and asked if it is more like the long or short duration.</p>" :
+      "<p>You will now be prompted with an image and asked if it is more like the long or short duration.</p>"),
       choices: [' '],
       prompt: '<p>Press space to continue.</p>'
     };

@@ -215,8 +215,7 @@
       type: "image-keyboard-response",
       stimulus: jsPsych.timelineVariable('stimulus'),
       choices: jsPsych.NO_KEYS,
-      trial_duration: jsPsych.timelineVariable('duration'),
-      randomize_order: true
+      trial_duration: jsPsych.timelineVariable('duration')
     };
 
     // Participant stimulus response
@@ -230,6 +229,7 @@
     // Assemble sequence for training phase
     var training_procedure = {
       timeline: [pause, ready, img_delay, training_test, img_delay, training_eval],
+      randomize_order: true,
       timeline_variables: testing_stimuli
     };
 
